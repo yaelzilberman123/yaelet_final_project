@@ -8,8 +8,8 @@ def slice_gen(file_path):
     for line in fasta_file:
         gene=""
         ll=str(line.rstrip("\n"))
-        for line, i in enumerate(faste_file):
-            if (line[0]='A')|(line[0]='C')|(line[0]='C')|(line[0]='T'):
+        for line, i in enumerate(fasta_file):
+            if (line[0]=='A')|(line[0]=='C')|(line[0]=='C')|(line[0]=='T'):
                 gene+=line[i]
             else: break
         codon_counter(gene)
@@ -17,7 +17,7 @@ def slice_gen(file_path):
     
 
 def Read_dict(): 
-  with open("data/AA_codons.txt","r") as c: # open file
+  with open("data/codon_AA.txt","r") as c: # open file
     for line in c: # run on every line in the file
         ll=str(line.rstrip("\n"))
         name=ll[:2]
@@ -38,9 +38,9 @@ def amino_counter():
     for amino in RNA_codon_table:
         sum_amino=0
         for codon in RNA_codon_table[amino]:
-            sum_amino+=codonn_dict[codon]
+            sum_amino+=codon_dict[codon]
         
-        ammino_dict[amino]+= sum_amino
+        amino_dict[amino]+= sum_amino
 
 
 def create_profile():
@@ -51,10 +51,16 @@ def create_profile():
             profil_dict[codon]= pre_codon
 
 
-            
+### main program ###
 
-            
-        
+#in this part of the script we are going to create the codon profiles for each organism:
+
+ecoli_file = open("data/ecoli_cds_from_genomic.fna")
+s_aureus_file = open("data/stap_aureus_cds_from_genomic.fna")
+
+
+ecoli_file.close()
+s_aureus_file.close()
 
         
 
