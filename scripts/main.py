@@ -4,22 +4,29 @@ amino_dict=dict() # amino-how many
 
 
 
-def get_gene():
-    fasta_file=open(file_path ,'r')
-    list_above300=[]
-    list_under300=[]
-    for line in fasta_file:
-        if line.strip():
-            gene=""
-            while (line[0]!='A')|(line[0]!='C')|(line[0]!='C')|(line[0]!='T'):
-                gene+=line
+#פונקציה שמקבלת קובץ עם גנים של יצור, בודקת שהגנים טובים ומחזירה רשימה של כל הגנים מעל 300 תווים
+def sort_genes(file):
+    gene = ""
+    gene300 = list()
+    gene_counter = 0
+    for line in file:
+        if line[0] == ">":
+            gene_length = len(gene)
+            if len(gene) >= 300 and len(gene) % 3 == 0:
+                gene_counter += 1
+                gene300.append(gene)
+            gene = ""
+            continue
+        else:
+            line = line.rstrip("\n\r")
+            line = line.upper()
+            gene = gene + line
+    gene_length = len(gene)
+    if len(gene) >= 300 and len(gene) % 3 == 0:
+        gene_counter += 1
+        gene300.append(gene)
+    return gene300, gene_counter
 
-            if (gene>300) and (len(gene)/3==0):
-                    list_above300.append(gene)
-                    codon_counter(gene)
-
-            else: list_under300.append(gene)
-        
 
 def Read_dict(): 
   with open("data/AA_codons.txt","r") as c: # open file
@@ -54,3 +61,7 @@ def create_profile():
         for codon in amino:
             pre_codon= ((codon_dict[codon]*100)/ amino_dict[amino])
             profil_dict[codon]= pre_codon
+
+
+### main program ###
+
