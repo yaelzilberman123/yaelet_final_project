@@ -1,19 +1,10 @@
-RNA_codon_table=dict() #prot-codons
-codon_dict=dict() #codon-how many
-amino_dict=dict() # amino-how many
-
-
-
-#פונקציה שמקבלת קובץ עם גנים של יצור, בודקת שהגנים טובים ומחזירה רשימה של כל הגנים מעל 300 תווים
 def sort_genes(file):
     gene = ""
     gene300 = list()
-    gene_counter = 0
     for line in file:
         if line[0] == ">":
             gene_length = len(gene)
             if len(gene) >= 300 and len(gene) % 3 == 0:
-                gene_counter += 1
                 gene300.append(gene)
             gene = ""
             continue
@@ -23,14 +14,14 @@ def sort_genes(file):
             gene = gene + line
     gene_length = len(gene)
     if len(gene) >= 300 and len(gene) % 3 == 0:
-        gene_counter += 1
         gene300.append(gene)
-    return gene300, gene_counter
+    return gene300
 
+        
 
 def Read_dict(): 
   with open("data/AA_codons.txt","r") as c: # open file
-    for line in c: # run on every line in the file
+    for line in c: # run on every line in th file
         ll=str(line.rstrip("\n"))
         name=ll[:2]
         amino_dict[name]=0
@@ -42,8 +33,8 @@ def Read_dict():
        
             
 def codon_counter(gene):
-    for i in range(0, (len(gene)/3),3):  
-        codon=gene[i:i+2]
+    for i in range(0, len(gene),3):  
+        codon=gene[i:i+3]
         codon_dict[codon]+=1
 
 def amino_counter():
@@ -58,9 +49,26 @@ def amino_counter():
 def create_profile():
     profil_dict=dict()
     for amino in RNA_codon_table:
-        for codon in amino:
+        for codon in RNA_codon_table[amino]:
             pre_codon= ((codon_dict[codon]*100)/ amino_dict[amino])
             profil_dict[codon]= pre_codon
+            return 
 
 
-### main program ###
+
+
+
+
+#main
+
+RNA_codon_table=dict() #prot-codons
+codon_dict=dict() #codon-how many
+amino_dict=dict() # amino-how many
+
+
+#ope file
+with open (file_path ,"r") as file:
+    sort_genes(file_path)
+
+
+print ()
