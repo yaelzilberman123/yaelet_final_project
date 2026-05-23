@@ -1,5 +1,5 @@
 import os
-
+#פונקציה המקבלת קובץ עם גנים מאורגניזם, מעבירה כל גן לשורת סטריטנג אחת ומחזירה רשימה של כל הגנים עם מעל ל300 קודונים
 def sort_genes(file):
     gene = ""
     gene300 = list()
@@ -32,17 +32,17 @@ def DNA_RNA_Cod(DNA):
   RNA = delimiter.join(line_list)
   return RNA     
 
-def Read_dict(): 
-  with open("data/AA_codons.txt","r") as c: # open file
-    for line in c: # run on every line in th file
-        ll=str(line.rstrip("\n"))
-        name=ll[:2]
-        amino_dict[name]=0
-        tmp_codon=ll[2:]
-        list_codon=tmp_codon.split(";")
-        RNA_codon_table[name]= list_codon #the key is the prot and the value is the codons        
-        for i in list_codon:
-          codon_dict[i]=0 #the key is the codon and the value is the amount of times he is in the dna           
+#פונקציה שמקבלת קובץ חומצות אמיניות ואת הקיצורים שלהן ומכניסה אותן למילון גלובלי + פותחות מילונים לספירת החומצות האמיניות והקודונים
+def Read_dict():
+  global RNA_codon_table
+  file = open("data/codon_AA.txt")
+  for line in file:
+    line = line.rstrip("\r\n")
+    (codon,dev,AA) = line.partition("\t")
+    codon_dict[codon] = 0
+    amino_dict[AA] = 0
+    RNA_codon_table[codon] = AA
+  file.close()       
        
             
 def codon_counter(gene):
@@ -52,6 +52,7 @@ def codon_counter(gene):
             continue
         else:
             codon_dict[codon]+=1
+    return codon_dict
 
 def amino_counter():
     for amino in RNA_codon_table:
@@ -68,7 +69,7 @@ def create_profile():
         for codon in RNA_codon_table[amino]:
             pre_codon= ((codon_dict[codon]*100)/ amino_dict[amino])
             profile_dict[codon]= pre_codon
-            return 
+            return
 
 
 
@@ -82,24 +83,26 @@ if __name__ == "__main__":
     codon_dict=dict() #codon-how many
     amino_dict=dict() # amino-how many
 
+Read_dict()
+print(RNA_codon_table)
 
     #open file
-    
-folder_path = "data/gene"
 
+
+
+folder_path = "data/gene"
 for file_name in os.listdir(folder_path):
     full_path = os.path.join(folder_path, file_name)
-    with open (file_name ,"r") as file:
-        with open ("result_" + file_name, "w") as out_file:
+    with open (full_path ,"r") as file:
+        with open ("results/result_" + file_name, "w") as out_file:
             temp_list=[]
-            list_gene = sort_genes(file_path)
+            list_gene = sort_genes(file)
             count_gene=len(list_gene)
-            while len(test_list) > 0.9*length:
-                temp_list.append(list_gene.pop(i))
+            while len(list_gene) > 0.9*count_gene:
+                temp_list.append(list_gene.pop(0))
                 for seq in temp_list:
                     gene= DNA_RNA_Cod(seq)
                     codon_counter(gene)
                     amino_counter()
-                    file.write(create_profile())
-                    list_gene.append(temp_list.pop(i))
-            file.write(list_gene)
+                    out_file.write(create_profile())
+            out_file.write(list_gene)
