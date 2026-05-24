@@ -1,8 +1,25 @@
 import os
 import numpy as np
 
-from scripts.main import sort_genes
-
+#from scripts.main import sort_genes
+def sort_genes(file):
+    gene = ""
+    gene300 = list()
+    for line in file:
+        if line[0] == ">":
+            gene_length = len(gene)
+            if len(gene) >= 300 and len(gene) % 3 == 0:
+                gene300.append(gene)
+            gene = ""
+            continue
+        else:
+            line = line.rstrip("\n\r")
+            line = line.upper()
+            gene = gene + line
+    if len(gene) >= 300 and len(gene) % 3 == 0:
+        gene300.append(gene)
+    return gene300
+#works!!!!
 #פונקציה הפותחת מילון שהמפתחות הם החומצות האמיניות והערכים הם רשימה של הקודונים המקודדים אליהן, ופותחת גם מילונים לספירת כלל הקודונים והחומצות האמיניות
 def Read_dict():
   global RNA_codon_table

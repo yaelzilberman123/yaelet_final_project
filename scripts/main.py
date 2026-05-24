@@ -34,7 +34,6 @@ def sort_genes(file):
             line = line.rstrip("\n\r")
             line = line.upper()
             gene = gene + line
-    gene_length = len(gene)
     if len(gene) >= 300 and len(gene) % 3 == 0:
         gene300.append(gene)
     return gene300
@@ -110,7 +109,6 @@ if __name__ == "__main__":
                 while len(list_gene) > 0.9*count_gene:
                     listPre10.append(list_gene.pop(0))
                 for seq in list_gene:
-                    print (seq)
                     gene= DNA_RNA_Cod(seq)
                     codon_counter(gene)
                     amino_counter()
