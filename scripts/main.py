@@ -84,35 +84,41 @@ def create_profile():
     profile_list = list(profile_dict.values())
     return profile_list
 
-# main program
 
-RNA_codon_table = {}
-codon_dict = {}
-amino_dict = {}
-Read_dict()
+if __name__ == "__main__":
+
+    # main program
+
+    RNA_codon_table = {}
+    codon_dict = {}
+    amino_dict = {}
+    Read_dict()
 
 
 
-folder_path = "data/gene"
-for file_name in os.listdir(folder_path):
-    for codon in codon_dict: codon_dict[codon] = 0
-    for amino in amino_dict: amino_dict[amino] = 0
+    folder_path = "data/gene"
+    for file_name in os.listdir(folder_path):
+        for codon in codon_dict: codon_dict[codon] = 0
+        for amino in amino_dict: amino_dict[amino] = 0
+        
+        full_path = os.path.join(folder_path, file_name)
+        with open (full_path ,"r") as file:
+            with open ("results/result_" + file_name, "w") as out_file:
+                listPre10=[]
+                list_gene = sort_genes(file)
+                count_gene=len(list_gene)
+                while len(list_gene) > 0.9*count_gene:
+                    listPre10.append(list_gene.pop(0))
+                for seq in list_gene:
+                    print (seq)
+                    gene= DNA_RNA_Cod(seq)
+                    codon_counter(gene)
+                    amino_counter()
+                out_file.write("----the profile of this oranism----\n")
+                profile = str(create_profile())
+                out_file.write(profile + "\n\n")
+                out_file.write("----the genes for testing----\n")
+                for i in listPre10:
+                    out_file.write("%s\n" %(i))
+
     
-    full_path = os.path.join(folder_path, file_name)
-    with open (full_path ,"r") as file:
-        with open ("results/result_" + file_name, "w") as out_file:
-            temp_list=[]
-            list_gene = sort_genes(file)
-            count_gene=len(list_gene)
-            while len(list_gene) > 0.9*count_gene:
-                temp_list.append(list_gene.pop(0))
-            for seq in list_gene:
-                gene= DNA_RNA_Cod(seq)
-                codon_counter(gene)
-                amino_counter()
-            out_file.write("----the profile of this oranism----\n")
-            profile = str(create_profile())
-            out_file.write(profile + "\n\n")
-            out_file.write("----the genes for testing----\n")
-            for i in temp_list:
-                out_file.write("%s\n" %(i))

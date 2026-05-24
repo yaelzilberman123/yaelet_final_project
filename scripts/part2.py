@@ -1,6 +1,8 @@
 import os
 import numpy as np
 
+from scripts.main import sort_genes
+
 #פונקציה הפותחת מילון שהמפתחות הם החומצות האמיניות והערכים הם רשימה של הקודונים המקודדים אליהן, ופותחת גם מילונים לספירת כלל הקודונים והחומצות האמיניות
 def Read_dict():
   global RNA_codon_table
@@ -66,8 +68,24 @@ def calc_dist(known_profile, new_profile):
     dist = np.linalg.norm(known_profile - new_profile)
     return dist
 
-# main program
 
+def find_closest_profile(existing_profiles, new_profile,isCorrect):
+    for profile in existing_profiles:
+        min_dist = float('inf')
+        dist = calc_dist(profile, new_profile)
+        if dist < min_dist:
+            min_dist = dist
+            closest_profile = profile
+    if isCorrect == closest_profile:
+        return 1
+    else:
+        return 0
+
+    
+
+    
+
+# main program
 '''e_coli_profile = np.array([1,2,3,4,5])
 gene_profile = np.array([0,1,3,4,2])
 stap_aureus_profile = np.array([2,3,4,5,6])
@@ -83,8 +101,8 @@ else:
     print("both")'''
 
 RNA_codon_table = {}
-codon_dict = {}
-amino_dict = {}
+codon_dict = {} # codon --> how many
+amino_dict = {} # amino--> how many
 Read_dict()
 
 #הפרופילים המוכנים
@@ -94,18 +112,29 @@ stap_aureus = [73.27562979927254, 26.724370200727467, 21.391355397372863, 2.6687
 
 existing_profiles = [b_subtilis, e_coli, stap_aureus]
 
-folder_path = "results"
-for file_name in os.listdir(folder_path):
-    for codon in codon_dict: codon_dict[codon] = 0
-    for amino in amino_dict: amino_dict[amino] = 0
-    
-    full_path = os.path.join(folder_path, file_name)
-    with open (full_path ,"r") as gene_file:
-       for line in gene_file:
-            if line and line[0] in ["A", "C", "G", "T"]:
-                continue
-            else:
-                gene= DNA_RNA_Cod(line)
-                codon_counter(gene)
-                amino_counter()
-            profile = create_profile()
+#the new profile
+with open ("results/result_" + "final_result.txt", "w") as out_file:
+
+    folder_path = "results"
+    for file_name in os.listdir(folder_path):
+        for codon in codon_dict: codon_dict[codon] = 0
+        for amino in amino_dict: amino_dict[amino] = 0
+        true_prediction = 0
+        length = 0
+
+        
+        full_path = os.path.join(folder_path, file_name)
+        with open (full_path ,"r") as gene_file:
+            for line in gene_file:
+                    if line and line[0] in ["A", "C", "G", "T"]:
+                        length += 1
+                        gene= DNA_RNA_Cod(line)
+                        codon_counter(gene)
+                        amino_counter()
+                        profile = create_profile()
+                        true_prediction += find_closest_profile(existing_profiles, profile, file_name)
+                  
+                     
+            
+            out_file.write(f"{true_prediction * 100 / length}\n")
+
