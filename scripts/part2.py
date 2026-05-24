@@ -1,25 +1,8 @@
 import os
 import numpy as np
 
-#from scripts.main import sort_genes
-def sort_genes(file):
-    gene = ""
-    gene300 = list()
-    for line in file:
-        if line[0] == ">":
-            gene_length = len(gene)
-            if len(gene) >= 300 and len(gene) % 3 == 0:
-                gene300.append(gene)
-            gene = ""
-            continue
-        else:
-            line = line.rstrip("\n\r")
-            line = line.upper()
-            gene = gene + line
-    if len(gene) >= 300 and len(gene) % 3 == 0:
-        gene300.append(gene)
-    return gene300
-#works!!!!
+from main import sort_genes
+
 #פונקציה הפותחת מילון שהמפתחות הם החומצות האמיניות והערכים הם רשימה של הקודונים המקודדים אליהן, ופותחת גם מילונים לספירת כלל הקודונים והחומצות האמיניות
 def Read_dict():
   global RNA_codon_table
@@ -52,6 +35,7 @@ def DNA_RNA_Cod(DNA):
 
 #פונקציה המקבלת רצף של גן, סופרת כמה פעמים מופיע כל קודון ומחזירה מילון עם הכמויות של כל קודון
 def codon_counter(gene):
+
     for i in range(0, len(gene),3):  
         codon=gene[i:i+3]
         if codon in ["UAA", "UGA", "UAG"]:
@@ -138,7 +122,7 @@ with open ("results/result_" + "final_result.txt", "w") as out_file:
         for amino in amino_dict: amino_dict[amino] = 0
         true_prediction = 0
         length = 0
-
+        Read_dict()
         
         full_path = os.path.join(folder_path, file_name)
         with open (full_path ,"r") as gene_file:
@@ -146,12 +130,13 @@ with open ("results/result_" + "final_result.txt", "w") as out_file:
                     if line and line[0] in ["A", "C", "G", "T"]:
                         length += 1
                         gene= DNA_RNA_Cod(line)
+                        print(gene)
                         codon_counter(gene)
-                        amino_counter()
-                        profile = create_profile()
-                        true_prediction += find_closest_profile(existing_profiles, profile, file_name)
-                  
-                     
+            amino_counter()
+            profile = create_profile()
+            true_prediction += find_closest_profile(existing_profiles, profile, file_name)
+        
+            
             
             out_file.write(f"{true_prediction * 100 / length}\n")
 

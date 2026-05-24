@@ -111,7 +111,7 @@ if __name__ == "__main__":
                 for seq in list_gene:
                     gene= DNA_RNA_Cod(seq)
                     codon_counter(gene)
-                    amino_counter()
+                amino_counter()
                 out_file.write("----the profile of this oranism----\n")
                 profile = str(create_profile())
                 out_file.write(profile + "\n\n")
