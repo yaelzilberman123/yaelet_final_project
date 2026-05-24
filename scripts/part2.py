@@ -70,8 +70,8 @@ def calc_dist(known_profile, new_profile):
 
 
 def find_closest_profile(existing_profiles, new_profile,isCorrect):
+    min_dist = float('inf')
     for profile in existing_profiles:
-        min_dist = float('inf')
         dist = calc_dist(profile, new_profile)
         if dist < min_dist:
             min_dist = dist
@@ -115,18 +115,17 @@ existing_profiles = [b_subtilis, e_coli, stap_aureus]
 
 #the new profile
 with open ("results/result_" + "final_result.txt", "w") as out_file:
-    i=0
     folder_path = "results/interim results"
     for file_name in os.listdir(folder_path):
-        Read_dict()
-        for codon in codon_dict: codon_dict[codon] = 0
-        for amino in amino_dict: amino_dict[amino] = 0
         true_prediction = 0
         length = 0
                
         full_path = os.path.join(folder_path, file_name)
         with open (full_path ,"r") as gene_file:
+            i=0
             for line in gene_file:
+                for codon in codon_dict: codon_dict[codon] = 0
+                for amino in amino_dict: amino_dict[amino] = 0
                 if line and line[0] in ["A", "C", "G", "T"]:
                     line  = line.rstrip("\n\r")
                     length += 1
@@ -135,8 +134,11 @@ with open ("results/result_" + "final_result.txt", "w") as out_file:
                     amino_counter()
                     profile = np.array(create_profile())
                     true_prediction += find_closest_profile(existing_profiles, profile, existing_profiles[i])
-                    print (true_prediction)            
-                    
-           
-            out_file.write(f"{true_prediction * 100 / length}\n")
+                    print (f"prediction: {true_prediction}")
+                    print (f"length: {length}")
 
+
+            out_file.write(f"{true_prediction * 100 / length}\n")
+            i+=1           
+
+   
