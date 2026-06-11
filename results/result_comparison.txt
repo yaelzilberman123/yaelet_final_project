@@ -1,0 +1,5 @@
+result_b_subtilis vs result_e_coli
+                     predicted_result_b_subtilis predicted_result_e_coli  
+actual_result_b_subtilis 351                       11                       
+actual_result_e_coli 52                        328                      
+

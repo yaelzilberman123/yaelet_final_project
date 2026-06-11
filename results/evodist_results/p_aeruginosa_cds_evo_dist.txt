@@ -1,0 +1,7 @@
+---- Evolutionary distance classification: p_aeruginosa_cds.fna ----
+b_subtilis_cds.fna: 97.90%
+e_coli_cds.fna: 97.14%
+p_aeruginosa_cds.fna: 100.00%
+s_enterica_cds.fna: 97.14%
+v_cholerae_cds.fna: 100.00%
+y_enterocolitica_cds.fna: 98.10%
