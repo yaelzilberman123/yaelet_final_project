@@ -1,3 +1,3 @@
-result_b_subtilis_cds.fna: 90.61%
-result_e_coli_cds.fna: 86.05%
-result_stap_aureus_cds.fna: 98.25%
+result_b_subtilis_cds.fna: 88.95%
+result_e_coli_cds.fna: 83.16%
+result_stap_aureus_cds.fna: 98.68%
