@@ -61,12 +61,12 @@ if __name__ == "__main__":
 
 
     evo_distances = {
-    "b_subtilis_cds.fna":      3000,
-    "e_coli_cds.fna":             0,
-    "p_aeruginosa_cds.fna":    1500,
-    "s_enterica_cds.fna":       120,
-    "v_cholerae_cds.fna":       500,
-    "y_enterocolitica_cds.fna": 300,
+    "b_subtilis_cds.fna":      71.7,
+    "e_coli_cds.fna":             0.0,
+    "p_aeruginosa_cds.fna":    83.0,
+    "s_enterica_cds.fna":       97.0,
+    "v_cholerae_cds.fna":       90.4,
+    "y_enterocolitica_cds.fna": 91.4,
     }
 
     run_evo_dist("e_coli_cds.fna", codon_table, evo_distances,

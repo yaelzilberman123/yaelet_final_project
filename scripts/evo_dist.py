@@ -120,7 +120,7 @@ def generate_evo_scatter(accuracies, singular_name, evo_distances, output_folder
     plt.plot(x_line, trend(x_line), '--', color='gray', linewidth=1.5,
              label=f'Trendline (R² = {r_squared:.3f})')
 
-    plt.xlabel("Evolutionary Distance (MYA)")
+    plt.xlabel("Evolutionary Distance")
     plt.ylabel("Classification Accuracy (%)")
     plt.title(f"Codon Usage Accuracy vs Evolutionary Distance — {singular_name.replace('_cds.fna', '')}")
     plt.ylim(y_bottom, 105)
