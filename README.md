@@ -9,3 +9,4 @@
 cd /path/to/project
 python main.py
 
+החלק הראשון מיועד להשוואה בין כמה אורגניזמים ובדיקה של חיזוי מקור הגן, את הקבצים הנלווים אליו יש לשים בתיקייה בתוך data ששמה gene, התוצאות יופיעו בתיקייה בresults  בvisualizations ובfinal results.
